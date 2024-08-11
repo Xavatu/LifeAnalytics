@@ -1,0 +1,21 @@
+import re
+
+from sqlalchemy.orm import declared_attr
+
+REGULAR_COMP = re.compile(r"((?<=[a-z\d])[A-Z]|(?!^)[A-Z](?=[a-z]))")
+
+
+def camel_to_snake(camel_string):
+    return REGULAR_COMP.sub(r"_\1", camel_string).lower()
+
+
+class TableNameMixin:
+    @classmethod
+    def __generate_table_snake_name(cls):
+        """StupidCAMelCase to stupid_ca_mel_case"""
+        return camel_to_snake(cls.__name__)
+
+    @declared_attr
+    def __tablename__(cls) -> str:
+        """this is a class method"""
+        return cls.__generate_table_snake_name()
