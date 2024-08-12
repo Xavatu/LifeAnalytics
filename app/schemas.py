@@ -45,7 +45,7 @@ class VoteBase(BasePydanticClass):
     user_id: int
     poll_id: int
     comment: Optional[str]
-    grade: Optional[int] = Field(None, ge=0, le=100)
+    grade: Optional[int] = Field(None, ge=0, le=10)
     created_at: datetime = Field(default_factory=datetime.now)
     voted_at: Optional[datetime] = None
 

@@ -21,7 +21,7 @@ class User(Base, TableNameMixin):
 class Indicator(Base, TableNameMixin):
     id = Column(Integer, Identity(), primary_key=True)
     name = Column(String(length=30), unique=True)
-    description = Column(String(length=200))
+    description = Column(String(length=200), nullable=True)
 
 
 class Poll(Base, TableNameMixin):
