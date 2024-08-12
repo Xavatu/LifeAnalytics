@@ -10,7 +10,7 @@ from sqlalchemy import (
 )
 
 from app.utils.mixins import TableNameMixin
-from config.db import Base
+from app.config.db import Base
 
 
 class User(Base, TableNameMixin):

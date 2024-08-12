@@ -37,11 +37,11 @@ class PollBase(BasePydanticClass):
     message: constr(min_length=1)
 
 
-class VotesIdentifierType(str, Enum):
+class VoteIdentifierType(str, Enum):
     id = "id"
 
 
-class VotesBase(BasePydanticClass):
+class VoteBase(BasePydanticClass):
     user_id: int
     poll_id: int
     comment: Optional[str]
@@ -65,7 +65,7 @@ indicator_fabric = PydanticRouteModelsFabric(
     IndicatorBase, IndicatorBaseIdentifierType
 )
 poll_fabric = PydanticRouteModelsFabric(PollBase, PollIdentifierType)
-votes_fabric = PydanticRouteModelsFabric(VotesBase, VotesIdentifierType)
+vote_fabric = PydanticRouteModelsFabric(VoteBase, VoteIdentifierType)
 schedule_fabric = PydanticRouteModelsFabric(
     ScheduleBase, ScheduleIdentifierType
 )

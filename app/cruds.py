@@ -1,32 +1,27 @@
-from functools import lru_cache
 from fabric.common.crud import CRUDBase
-
-from app.models import User, Indicator, Poll
-from app.schemas import UserBase, IndicatorBase, PollBase
+from app import models, schemas
 
 
-class UserCrud(CRUDBase[User, UserBase]):
-    ...
+class UserCrud(CRUDBase[models.User, schemas.UserBase]):
+    def __init__(self):
+        super().__init__(models.User)
 
 
-@lru_cache(None)
-def get_user_crud():
-    return UserCrud(User)
+class IndicatorCrud(CRUDBase[models.Indicator, schemas.IndicatorBase]):
+    def __init__(self):
+        super().__init__(models.Indicator)
 
 
-class IndicatorCrud(CRUDBase[Indicator, IndicatorBase]):
-    ...
+class PollCrud(CRUDBase[models.Poll, schemas.PollBase]):
+    def __init__(self):
+        super().__init__(models.Poll)
 
 
-@lru_cache(None)
-def get_indicator_crud():
-    return IndicatorCrud(Indicator)
+class VoteCrud(CRUDBase[models.Vote, schemas.VoteBase]):
+    def __init__(self):
+        super().__init__(models.Vote)
 
 
-class PollCrud(CRUDBase[Poll, PollBase]):
-    ...
-
-
-@lru_cache(None)
-def get_poll_crud():
-    return PollCrud(Poll)
+class ScheduleCrud(CRUDBase[models.Schedule, schemas.ScheduleBase]):
+    def __init__(self):
+        super().__init__(models.Schedule)

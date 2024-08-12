@@ -1,33 +1,47 @@
-from config.db import get_session
+from app.config.db import get_session
 from fabric.reference_routes.router_fabric import generate_routes_pack
 
-from app.cruds import get_user_crud, get_indicator_crud, get_poll_crud
+from app import cruds
 from app.schemas import (
     user_fabric,
     indicator_fabric,
     poll_fabric,
-    votes_fabric,
+    vote_fabric,
     schedule_fabric,
 )
 
 user_router = generate_routes_pack(
     router_prefix="/users",
     common_name="user",
-    crud=get_user_crud,
+    crud=cruds.UserCrud(),
     fabric=user_fabric,
     get_session=get_session,
 )
 indicator_router = generate_routes_pack(
-    router_prefix="/indicator",
+    router_prefix="/indicators",
     common_name="indicator",
-    crud=get_indicator_crud,
+    crud=cruds.IndicatorCrud(),
     fabric=indicator_fabric,
     get_session=get_session,
 )
 poll_router = generate_routes_pack(
-    router_prefix="/poll",
+    router_prefix="/polls",
     common_name="poll",
-    crud=get_poll_crud,
+    crud=cruds.PollCrud(),
     fabric=poll_fabric,
+    get_session=get_session,
+)
+vote_router = generate_routes_pack(
+    router_prefix="/votes",
+    common_name="vote",
+    crud=cruds.VoteCrud(),
+    fabric=vote_fabric,
+    get_session=get_session,
+)
+schedule_router = generate_routes_pack(
+    router_prefix="/schedules",
+    common_name="schedule",
+    crud=cruds.ScheduleCrud(),
+    fabric=schedule_fabric,
     get_session=get_session,
 )
