@@ -52,12 +52,12 @@ class Vote(Base, TableNameMixin):
     comment = Column(String, nullable=True)
     grade = Column(SmallInteger, nullable=True)
     created_at = Column(
-        DateTime,
+        DateTime(timezone=True),
         server_default=func.now(),
         nullable=False,
     )
     voted_at = Column(
-        DateTime,
+        DateTime(timezone=True),
         onupdate=func.now(),
         nullable=True,
     )
@@ -78,6 +78,6 @@ class Schedule(Base, TableNameMixin):
         index=True,
     )
     send_at = Column(
-        DateTime,
+        DateTime(timezone=True),
         nullable=False,
     )
