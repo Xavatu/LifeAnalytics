@@ -1,3 +1,5 @@
+from enum import Enum, unique
+
 from sqlalchemy import (
     Column,
     Identity,
@@ -15,12 +17,12 @@ from app.config.db import Base
 
 class User(Base, TableNameMixin):
     id = Column(Integer, Identity(), primary_key=True)
-    telegram_id = Column(Integer, unique=True)
+    telegram_id = Column(Integer, unique=True, nullable=False)
 
 
 class Indicator(Base, TableNameMixin):
     id = Column(Integer, Identity(), primary_key=True)
-    name = Column(String(length=30), unique=True)
+    name = Column(String(length=30), unique=True, nullable=False)
     description = Column(String(length=200), nullable=True)
 
 
@@ -58,9 +60,15 @@ class Vote(Base, TableNameMixin):
     )
     voted_at = Column(
         DateTime(timezone=True),
-        onupdate=func.now(),
+        server_onupdate=func.now(),
         nullable=True,
     )
+
+
+class Repeat(Enum):
+    NO_REPEAT = 0
+    REPEAT_DAILY = 1
+    REPEAT_WEEKLY = 2
 
 
 class Schedule(Base, TableNameMixin):
@@ -80,4 +88,9 @@ class Schedule(Base, TableNameMixin):
     send_at = Column(
         DateTime(timezone=True),
         nullable=False,
+    )
+    repeat = Column(
+        Integer,
+        nullable=False,
+        default=0,
     )

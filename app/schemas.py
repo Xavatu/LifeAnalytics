@@ -1,75 +1,34 @@
-from pydantic import Field, constr
-from typing import Optional
-from enum import Enum
-from datetime import datetime, timezone
-
-from fabric.reference_routes.route_schema import (
-    BasePydanticClass,
-    PydanticRouteModelsFabric,
+from app import models
+from fabric.common.sqlalchemy_to_pydantic import (
+    get_model_schema,
+    get_model_identity_schema,
 )
+from fabric.reference_routes.route_schema import PydanticRouteModelsFabric
 
 
-class UserIdentifierType(str, Enum):
-    id = "id"
-    telegram_id = "telegram_id"
+UserIdentity = get_model_identity_schema(models.User, include_unique=True)
+UserBase = get_model_schema(models.User)
 
-
-class UserBase(BasePydanticClass):
-    telegram_id: int
-
-
-class IndicatorBaseIdentifierType(str, Enum):
-    id = "id"
-    name = "name"
-
-
-class IndicatorBase(BasePydanticClass):
-    name: constr(min_length=1, max_length=30)
-    description: Optional[constr(min_length=1, max_length=200)]
-
-
-class PollIdentifierType(str, Enum):
-    id = "id"
-
-
-class PollBase(BasePydanticClass):
-    indicator_id: int
-    message: constr(min_length=1)
-
-
-class VoteIdentifierType(str, Enum):
-    id = "id"
-
-
-class VoteBase(BasePydanticClass):
-    user_id: int
-    poll_id: int
-    comment: Optional[str]
-    grade: Optional[int] = Field(None, ge=0, le=10)
-    created_at: datetime = Field(
-        default_factory=lambda: datetime.now(timezone.utc)
-    )
-    voted_at: Optional[datetime] = None
-
-
-class ScheduleIdentifierType(str, Enum):
-    id = "id"
-
-
-class ScheduleBase(BasePydanticClass):
-    poll_id: int
-    user_id: int
-    send_at: datetime = Field(
-        default_factory=lambda: datetime.now(timezone.utc)
-    )
-
-
-user_fabric = PydanticRouteModelsFabric(UserBase, UserIdentifierType)
-indicator_fabric = PydanticRouteModelsFabric(
-    IndicatorBase, IndicatorBaseIdentifierType
+IndicatorIdentity = get_model_identity_schema(
+    models.Indicator, include_unique=True
 )
-poll_fabric = PydanticRouteModelsFabric(PollBase, PollIdentifierType)
-vote_fabric = PydanticRouteModelsFabric(VoteBase, VoteIdentifierType)
-schedule_fabric = PydanticRouteModelsFabric(
-    ScheduleBase, ScheduleIdentifierType
+IndicatorBase = get_model_schema(models.Indicator)
+
+PollIdentity = get_model_identity_schema(models.Poll, include_unique=True)
+PollBase = get_model_schema(models.Poll)
+
+VoteIdentity = get_model_identity_schema(models.Vote, include_unique=True)
+VoteBase = get_model_schema(models.Vote)
+
+ScheduleIdentity = get_model_identity_schema(
+    models.Schedule, include_unique=True
 )
+ScheduleBase = get_model_schema(models.Schedule)
+
+
+user_fabric = PydanticRouteModelsFabric(UserBase, UserIdentity)
+print(UserIdentity.model_fields)
+indicator_fabric = PydanticRouteModelsFabric(IndicatorBase, IndicatorIdentity)
+poll_fabric = PydanticRouteModelsFabric(PollBase, PollIdentity)
+vote_fabric = PydanticRouteModelsFabric(VoteBase, VoteIdentity)
+schedule_fabric = PydanticRouteModelsFabric(ScheduleBase, ScheduleIdentity)
