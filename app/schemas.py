@@ -27,7 +27,6 @@ ScheduleBase = get_model_schema(models.Schedule)
 
 
 user_fabric = PydanticRouteModelsFabric(UserBase, UserIdentity)
-print(UserIdentity.model_fields)
 indicator_fabric = PydanticRouteModelsFabric(IndicatorBase, IndicatorIdentity)
 poll_fabric = PydanticRouteModelsFabric(PollBase, PollIdentity)
 vote_fabric = PydanticRouteModelsFabric(VoteBase, VoteIdentity)
