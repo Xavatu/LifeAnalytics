@@ -34,6 +34,7 @@ UserBase = get_model_schema(models.User)
 UserQuery = schema_copy(
     UserBase, name="UserQuery", exclude=field_list(UserIdentity)
 )
+UserCreate = schema_copy(UserBase, name="UserCreate", exclude=["id"])
 
 IndicatorIdentity = get_model_identity_schema(
     models.Indicator, include_unique=True
@@ -44,6 +45,9 @@ IndicatorQuery = schema_copy(
     name="IndicatorQuery",
     exclude=[*field_list(IndicatorIdentity), "description"],
 )
+IndicatorCreate = schema_copy(
+    IndicatorBase, name="IndicatorCreate", exclude=["id"]
+)
 
 PollIdentity = get_model_identity_schema(models.Poll, include_unique=True)
 PollBase = get_model_schema(models.Poll)
@@ -52,6 +56,7 @@ PollQuery = schema_copy(
     name="PollQuery",
     exclude=[*field_list(PollIdentity), "message"],
 )
+PollCreate = schema_copy(PollBase, name="PollCreate", exclude=["id"])
 
 VoteIdentity = get_model_identity_schema(models.Vote, include_unique=True)
 VoteBase = get_model_schema(models.Vote)
@@ -60,6 +65,7 @@ VoteQuery = schema_copy(
     name="VoteQuery",
     exclude=[*field_list(VoteIdentity), "comment"],
 )
+VoteCreate = schema_copy(VoteBase, name="VoteCreate", exclude=["id"])
 
 ScheduleIdentity = get_model_identity_schema(
     models.Schedule, include_unique=True
@@ -70,20 +76,29 @@ ScheduleQuery = schema_copy(
     name="ScheduleQuery",
     exclude=[*field_list(ScheduleIdentity), "comment"],
 )
+ScheduleCreate = schema_copy(
+    ScheduleBase, name="ScheduleCreate", exclude=["id"]
+)
 
 
 user_fabric = PydanticRouteModelsFabric(
-    UserBase, UserIdentity, query_class=UserQuery
+    UserBase, UserIdentity, query_class=UserQuery, create_class=UserCreate
 )
 indicator_fabric = PydanticRouteModelsFabric(
-    IndicatorBase, IndicatorIdentity, query_class=IndicatorQuery
+    IndicatorBase,
+    IndicatorIdentity,
+    query_class=IndicatorQuery,
+    create_class=IndicatorCreate,
 )
 poll_fabric = PydanticRouteModelsFabric(
-    PollBase, PollIdentity, query_class=PollQuery
+    PollBase, PollIdentity, query_class=PollQuery, create_class=PollCreate
 )
 vote_fabric = PydanticRouteModelsFabric(
-    VoteBase, VoteIdentity, query_class=VoteQuery
+    VoteBase, VoteIdentity, query_class=VoteQuery, create_class=VoteCreate
 )
 schedule_fabric = PydanticRouteModelsFabric(
-    ScheduleBase, ScheduleIdentity, query_class=ScheduleQuery
+    ScheduleBase,
+    ScheduleIdentity,
+    query_class=ScheduleQuery,
+    create_class=ScheduleCreate,
 )
