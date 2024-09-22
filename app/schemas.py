@@ -12,7 +12,7 @@ FromAttributesConfig = lambda: ConfigDict(from_attributes=True)
 field_list = lambda _model: list(_model.model_fields.keys())
 
 
-def schema_copy(
+def copy_schema(
     base_schema: type[BaseModel],
     name: str = None,
     exclude: list[str] = None,
@@ -31,52 +31,52 @@ def schema_copy(
 
 UserIdentity = get_model_identity_schema(models.User, include_unique=True)
 UserBase = get_model_schema(models.User)
-UserQuery = schema_copy(
+UserQuery = copy_schema(
     UserBase, name="UserQuery", exclude=field_list(UserIdentity)
 )
-UserCreate = schema_copy(UserBase, name="UserCreate", exclude=["id"])
+UserCreate = copy_schema(UserBase, name="UserCreate", exclude=["id"])
 
 IndicatorIdentity = get_model_identity_schema(
     models.Indicator, include_unique=True
 )
 IndicatorBase = get_model_schema(models.Indicator)
-IndicatorQuery = schema_copy(
+IndicatorQuery = copy_schema(
     IndicatorBase,
     name="IndicatorQuery",
     exclude=[*field_list(IndicatorIdentity), "description"],
 )
-IndicatorCreate = schema_copy(
+IndicatorCreate = copy_schema(
     IndicatorBase, name="IndicatorCreate", exclude=["id"]
 )
 
 PollIdentity = get_model_identity_schema(models.Poll, include_unique=True)
 PollBase = get_model_schema(models.Poll)
-PollQuery = schema_copy(
+PollQuery = copy_schema(
     PollBase,
     name="PollQuery",
     exclude=[*field_list(PollIdentity), "message"],
 )
-PollCreate = schema_copy(PollBase, name="PollCreate", exclude=["id"])
+PollCreate = copy_schema(PollBase, name="PollCreate", exclude=["id"])
 
 VoteIdentity = get_model_identity_schema(models.Vote, include_unique=True)
 VoteBase = get_model_schema(models.Vote)
-VoteQuery = schema_copy(
+VoteQuery = copy_schema(
     VoteBase,
     name="VoteQuery",
     exclude=[*field_list(VoteIdentity), "comment"],
 )
-VoteCreate = schema_copy(VoteBase, name="VoteCreate", exclude=["id"])
+VoteCreate = copy_schema(VoteBase, name="VoteCreate", exclude=["id"])
 
 ScheduleIdentity = get_model_identity_schema(
     models.Schedule, include_unique=True
 )
 ScheduleBase = get_model_schema(models.Schedule)
-ScheduleQuery = schema_copy(
+ScheduleQuery = copy_schema(
     ScheduleBase,
     name="ScheduleQuery",
     exclude=[*field_list(ScheduleIdentity), "comment"],
 )
-ScheduleCreate = schema_copy(
+ScheduleCreate = copy_schema(
     ScheduleBase, name="ScheduleCreate", exclude=["id"]
 )
 
