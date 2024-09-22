@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 from pydantic import BaseModel, create_model, ConfigDict
 
 from app import models
@@ -19,7 +21,7 @@ def copy_schema(
     config: ConfigDict = None,
 ) -> type[BaseModel]:
     exclude = exclude if exclude else []
-    config = config if config else FromAttributesConfig()
+    config = config if config else deepcopy(base_schema.model_config)
     fields = {
         k: (v.annotation, v)
         for k, v in base_schema.model_fields.items()
