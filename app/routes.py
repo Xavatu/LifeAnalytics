@@ -16,7 +16,7 @@ user_router = generate_routes_pack(
     crud=cruds.UserCrud(),
     fabric=user_fabric,
     get_session=get_session,
-    excluded_methods=[Method.put, Method.patch, Method.csv],
+    excluded_methods=[Method.put, Method.patch],
 )
 indicator_router = generate_routes_pack(
     router_prefix="/indicators",
@@ -24,7 +24,6 @@ indicator_router = generate_routes_pack(
     crud=cruds.IndicatorCrud(),
     fabric=indicator_fabric,
     get_session=get_session,
-    excluded_methods=[Method.csv],
 )
 poll_router = generate_routes_pack(
     router_prefix="/polls",
@@ -32,7 +31,6 @@ poll_router = generate_routes_pack(
     crud=cruds.PollCrud(),
     fabric=poll_fabric,
     get_session=get_session,
-    excluded_methods=[Method.csv],
 )
 vote_router = generate_routes_pack(
     router_prefix="/votes",
@@ -40,7 +38,7 @@ vote_router = generate_routes_pack(
     crud=cruds.VoteCrud(),
     fabric=vote_fabric,
     get_session=get_session,
-    excluded_methods=[Method.put, Method.csv],
+    excluded_methods=[Method.put],
 )
 schedule_router = generate_routes_pack(
     router_prefix="/schedules",
@@ -48,5 +46,4 @@ schedule_router = generate_routes_pack(
     crud=cruds.ScheduleCrud(),
     fabric=schedule_fabric,
     get_session=get_session,
-    excluded_methods=[Method.csv],
 )
