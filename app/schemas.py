@@ -3,6 +3,7 @@ from copy import deepcopy
 from pydantic import BaseModel, create_model, ConfigDict
 
 from app import models
+from fabric.common.schema import copy_schema
 from fabric.common.sqlalchemy_to_pydantic import (
     get_model_schema,
     get_model_identity_schema,
@@ -12,23 +13,6 @@ from fabric.reference_routes.route_schema import PydanticRouteModelsFabric
 
 FromAttributesConfig = lambda: ConfigDict(from_attributes=True)
 field_list = lambda _model: list(_model.model_fields.keys())
-
-
-def copy_schema(
-    base_schema: type[BaseModel],
-    name: str = None,
-    exclude: list[str] = None,
-    config: ConfigDict = None,
-) -> type[BaseModel]:
-    exclude = exclude if exclude else []
-    config = config if config else deepcopy(base_schema.model_config)
-    fields = {
-        k: (v.annotation, v)
-        for k, v in base_schema.model_fields.items()
-        if k not in exclude
-    }
-    name = name if name else base_schema.__name__
-    return create_model(name, __config__=config, **fields)
 
 
 UserIdentity = get_model_identity_schema(models.User, include_unique=True)
